@@ -95,6 +95,33 @@ class UnitTest extends TestCase
         }
     }
 
+    public function testPOBox(): void
+    {
+        $parser = new \AddressStringParser\Parser();
+        $parsedAddress = $parser->parseAddress('PO BOX 65502,TUCSON AZ 85728,USA');
+        $expected = [
+            'addressLine1'     => 'PO BOX 65502',
+            'addressLine2'     => null,
+            'zip'              => '85728',
+            'zip4'             => null,
+            'stateName'        => 'Arizona',
+            'state'            => 'AZ',
+            'city'             => 'TUCSON',
+            'streetNumber'     => null,
+            'streetName'       => null,
+            'routeType'        => null,
+            'streetDirection'  => null,
+            'country'          => 'USA',
+            'formattedAddress' => 'PO BOX 65502, TUCSON, AZ 85728',
+            'error'            => false,
+            'errorMessage'     => null,
+        ];
+        
+        foreach ($expected as $key => $value) {
+            $this->assertSame($value, $parsedAddress[$key]);
+        }
+    }
+
     public function testUSStringAK(): void
     {
         $parser = new \AddressStringParser\Parser();
