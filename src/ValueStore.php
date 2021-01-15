@@ -30366,7 +30366,7 @@ class ValueStore
      */
     public function getRouteTypes()
     {
-        return $this->routeTypes;
+        return self::$routeTypes;
     }
 
     /**
@@ -30376,7 +30376,7 @@ class ValueStore
      */
     public function getDirections()
     {
-        return $this->directions;
+        return self::$directions;
     }
 
     /**
@@ -30386,7 +30386,7 @@ class ValueStore
      */
     public function getStates()
     {
-        return $this->states;
+        return self::$states;
     }
 
     /**
@@ -30396,7 +30396,17 @@ class ValueStore
      */
     public function getStateCodes()
     {
-        return $this->states;
+        return array_keys(self::$states);
+    }
+
+    /**
+     * Getter method for accessing full state names
+     *
+     * @return array
+     */
+    public function getStateNames()
+    {
+        return array_values(self::$states);
     }
 
     /**
@@ -30406,7 +30416,7 @@ class ValueStore
      */
     public function getPrefixes()
     {
-        return $this->prefixes;
+        return self::$prefixes;
     }
 
     /**
@@ -30418,11 +30428,11 @@ class ValueStore
     public function getCities($state = null)
     {
         if ($state === null) {
-            return $this->cities;
-        } else if (strlen($state) === 2 && array_key_exists($state, $this->cities)) {
-            return $this->cities[$state];
-        } else if (array_key_exists(array_search($state, $this->states), $this->cities)) {
-            return array_search($state, $this->states, $this->cities);
+            return self::$cities;
+        } else if (strlen($state) === 2 && array_key_exists($state, self::$cities)) {
+            return self::$cities[$state];
+        } else if (array_key_exists(array_search($state, self::$states), self::$cities)) {
+            return array_search($state, self::$states, self::$cities);
         }
         return null;
     }

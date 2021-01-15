@@ -1,0 +1,25 @@
+{
+    "name": "mmaher/address-string-parser",
+    "description": "A parser for street address strings",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Mark Maher",
+            "email": "Mark.J.Maher25@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "AddressStringParser\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AddressStringParser\\Test\\": "test/"
+        }
+    },
+    "require": {},
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    }
+}

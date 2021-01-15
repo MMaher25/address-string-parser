@@ -37,20 +37,21 @@ class Parser
             return $parsed;
         }
         $parsed = [
-            'addressLine1'    => null,
-            'addressLine2'    => null,
-            'zip'             => null,
-            'zip4'            => null,
-            'stateName'       => null,
-            'state'           => null,
-            'city'            => null,
-            'streetName'      => null,
-            'streetNumber'    => null,
-            'streetDirection' => null,
-            'routeType'       => null,
-            'country'         => null,
-            'error'           => false,
-            'errorMessage'    => null,
+            'addressLine1'     => null,
+            'addressLine2'     => null,
+            'zip'              => null,
+            'zip4'             => null,
+            'stateName'        => null,
+            'state'            => null,
+            'city'             => null,
+            'streetNumber'     => null,
+            'streetName'       => null,
+            'routeType'        => null,
+            'streetDirection'  => null,
+            'country'          => null,
+            'formattedAddress' => null,
+            'error'            => false,
+            'errorMessage'     => null,
         ];
         $store = new ValueStore();
 
@@ -60,15 +61,15 @@ class Parser
         $address = str_replace([' -', '- '], '-', $address);
 
         // Assume comma, newline and tab is an intentional delimiter
-        $addressArray = preg_split('/,|\t|\n/', $address);
+        $addressArray = preg_split('/,|\t|\n|;/', $address);
 
         $streetSection             = "";
-        $usStreetDirectionalString = implode('|', array_keys($store->getDirections));
-        $usLine2String             = implode('|', array_keys($store->getPrefixes));
-        $streetRegex               = '/.*\b(?:' . implode('|', $store->getRouteTypes) . ')\b\.?' . '( +(?:' . $usStreetDirectionalString . ')\b)?/i';
+        $usStreetDirectionalString = implode('|', array_keys($store->getDirections()));
+        $usLine2String             = implode('|', array_keys($store->getPrefixes()));
+        $streetRegex               = '/.*\b(?:' . implode('|', array_keys($store->getRouteTypes())) . ')\b\.?' . '( +(?:' . $usStreetDirectionalString . ')\b)?/i';
         if (count($addressArray) === 1) {
             // No commas, let's see if it's just a street address
-            $streetOnlyRegex = str_replace('?/i', '?$/i', $streetRegex);
+            $streetOnlyRegex = str_replace('?/i', '?\.?$/i', $streetRegex);
             if (preg_match($streetOnlyRegex, $address, $streetMatches) === 1) {
                 $parsed['addressLine1'] = $streetMatches[0];
                 $streetSection          = preg_replace($streetRegex, '', $streetSection);
@@ -79,7 +80,7 @@ class Parser
                         $parsed['errorMessage'] = 'Can not parse address. Too many address lines. ';
                         return $parsed;
                     } else {
-                        $parsed['addressLine2'] = $streetSection;
+                        $parsed['addressLine2'] = ucwords(trim($streetSection));
                     }
                 }
                 $streetParts = explode(' ', $parsed['addressLine1']);
@@ -97,12 +98,12 @@ class Parser
                 if (count($streetParts) > 2) {
                     // Remove '.' if it follows routeType
                     $streetParts[count($streetParts) - 1] = preg_replace('/\.$/', '', $streetParts[count($streetParts) - 1]);
-                    $parsed['routeType'] = ucwords($store->getRouteTypes[strtolower($streetParts[count($streetParts) - 1])]);
+                    $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower($streetParts[count($streetParts) - 1])]);
                 }
 
                 $parsed['streetName'] = $streetParts[1]; // Assume street name is everything in the middle
                 for ($i = 2; $i < count($streetParts) - 1; $i++) {
-                    $parsed['streetName'] = $parsed['streetName'] + " " + $streetParts[$i];
+                    $parsed['streetName'] = $parsed['streetName'] . " " . $streetParts[$i];
                 }
                 $parsed['streetName']   = ucwords($parsed['streetName']);
                 $parsed['addressLine1'] = implode(' ', [$parsed['streetNumber'], $parsed['streetName']]);
@@ -159,13 +160,13 @@ class Parser
         }
 
         // Check for just a state code
-        if (strlen($stateSection) == 2 && array_key_exists(strtoupper($stateSection), $store->getStates)) {
+        if (strlen($stateSection) == 2 && array_key_exists(strtoupper($stateSection), $store->getStates())) {
             $parsed['state']         = strtoupper($stateSection);
-            $parsed['stateName']     = ucwords($store->getStates[strtoupper($stateSection)]);
+            $parsed['stateName']     = ucwords($store->getStates()[strtoupper($stateSection)]);
             $stateSection            = trim(str_replace($parsed['state'], '', $stateSection));
         } else {
             // Next check if the state string ends in state name or code
-            foreach ($store->getStates as $code => $state) {
+            foreach ($store->getStates() as $code => $state) {
                 $regex = "/ " . $code . "$|" . $state . "$/i";
                 if (preg_match($regex, $stateSection) === 1) {
                     $stateSection        = preg_replace($regex, '', $stateSection);
@@ -185,7 +186,7 @@ class Parser
         $citySection = "";
         if (strlen($stateSection) > 0) {
             $addressArray[count($addressArray) - 1] = $stateSection;
-            $citySection = $addressArray[count($addressArray) - 1];
+            $citySection = trim($addressArray[count($addressArray) - 1]);
         } else {
             array_splice($addressArray, -1);
             $citySection = trim($addressArray[count($addressArray) - 1]);
@@ -225,7 +226,7 @@ class Parser
                 $addressArray[0] = $tmpString;
             }
             //Assume street line is first
-            $parsed['addressLine2'] = trim($addressArray[1]);
+            $parsed['addressLine2'] = ucwords(trim($addressArray[1]));
             array_splice($addressArray, -1);
         }
         if (count($addressArray) === 1) {
@@ -234,7 +235,7 @@ class Parser
             if ($parsed['addressLine2'] === null) {
                 $regex = '/^(' . $usLine2String . ')\s\S+/i';
                 if (preg_match($regex, $streetSection, $streetMatches)) {
-                    $parsed['addressLine2'] = $streetMatches[0];
+                    $parsed['addressLine2'] = ucwords(trim($streetMatches[0]));
                     $streetSection          = trim(preg_replace($regex, '', $streetSection));
                 }
             }
@@ -252,7 +253,7 @@ class Parser
                         $parsed['errorMessage'] = 'Can not parse address. Too many address lines. ';
                         return $parsed;
                     } else {
-                        $parsed['addressLine2'] = $streetSection;
+                        $parsed['addressLine2'] = ucwords(trim($streetSection));
                     }
                 }
 
@@ -279,7 +280,7 @@ class Parser
                         $parsed['errorMessage'] = 'Can not parse address. Too many address lines. ';
                         return $parsed;
                     } else {
-                        $parsed['addressLine2'] = $streetSection;
+                        $parsed['addressLine2'] = ucwords(trim($streetSection));
                     }
                 }
                 $streetParts = explode(' ', $parsed['addressLine1']);
@@ -297,7 +298,7 @@ class Parser
                 if (count($streetParts) > 2) {
                     // Remove '.' if it follows routeType
                     $streetParts[count($streetParts) - 1] = preg_replace('/\.$/', '', $streetParts[count($streetParts) - 1]);
-                    $parsed['routeType'] = ucwords($store->getRouteTypes[strtolower($streetParts[count($streetParts) - 1])]);
+                    $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower($streetParts[count($streetParts) - 1])]);
                 }
 
                 $parsed['streetName'] = $streetParts[1]; // Assume street name is everything in the middle
@@ -320,11 +321,11 @@ class Parser
                 // Check for a line2 prefix followed by a single word. If found peel that off as addressLine2
                 $line2Regex = '/\s(' . $usLine2String . ')\.?\s[a-zA-Z0-9_\-]+$/i';
                 if (preg_match($line2Regex, $streetSection, $line2Matches)) {
-                    $parsed['addressLine2'] = trim($line2Matches);
+                    $parsed['addressLine2'] = ucwords(trim($line2Matches[0]));
                     $streetSection          = preg_replace($line2Regex, '', $streetSection);
                 }
 
-                $parsed['addressLine1'] = $noSuffixMatches[0];
+                $parsed['addressLine1'] = $streetSection;
                 $streetSection = trim(preg_replace($noSuffixRegex, '', $streetSection));
                 $streetParts   = explode(' ', $parsed['addressLine1']);
 
@@ -344,7 +345,7 @@ class Parser
 
         $addressString = $parsed['addressLine1'];
         if ($parsed['addressLine2'] !== null) {
-            $addressString .= ', ' + $parsed['addressLine2'];
+            $addressString .= ', ' . $parsed['addressLine2'];
         }
         if ($addressString && $parsed['city'] !== null && $parsed['state'] !== null && $parsed['zip'] !== null) {
             $idString = $addressString . ", " . $parsed['city'] . ", " . $parsed['state'] . " " . $parsed['zip'];
