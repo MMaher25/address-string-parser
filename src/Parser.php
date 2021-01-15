@@ -86,7 +86,7 @@ class Parser
                 $streetParts = explode(' ', $parsed['addressLine1']);
 
                 // Check if directional is last element
-                $dirRegex = '/\.\*\b(?:' . $usStreetDirectionalString . ')$/';
+                $dirRegex = '/.*\b(?:' . $usStreetDirectionalString . ')$/';
                 if (preg_match($dirRegex, $parsed['addressLine1']) === 1) {
                     $parsed['streetDirection'] = strtoupper(array_pop($streetParts));
                 }
@@ -241,7 +241,7 @@ class Parser
             }
             //Assume street address comes first and the rest is secondary address
             $poBoxRegex     = '/(P\\.?O\\.?|POST\\s+OFFICE)\\s+(BOX|DRAWER)\\s\\w+/i';
-            $aveLetterRegex = '/\.\*\b(ave.?|avenue)\.\*\b[a-zA-Z]\b/i';
+            $aveLetterRegex = '/.*\b(ave.?|avenue)\.\*\b[a-zA-Z]\b/i';
             $noSuffixRegex  = '/\b\d+\s[a-zA-Z0-9_ ]+\b/';
             if (preg_match($aveLetterRegex, $streetSection, $aveMatches) === 1) {
                 $parsed['addressLine1'] = $aveMatches[0];
@@ -286,7 +286,7 @@ class Parser
                 $streetParts = explode(' ', $parsed['addressLine1']);
 
                 // Check if directional is last element
-                $dirRegex = '/\.\*\b(?:' . $usStreetDirectionalString . ')$/';
+                $dirRegex = '/.*\b(?:' . $usStreetDirectionalString . ')$/i';
                 if (preg_match($dirRegex, $parsed['addressLine1']) === 1) {
                     $parsed['streetDirection'] = strtoupper(array_pop($streetParts));
                 }

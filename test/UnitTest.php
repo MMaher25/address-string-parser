@@ -95,6 +95,33 @@ class UnitTest extends TestCase
         }
     }
 
+    public function testStreetDirection(): void
+    {
+        $parser = new \AddressStringParser\Parser();
+        $parsedAddress = $parser->parseAddress('900 North 3rd Street SE, Baton Rouge, LA 70802');
+        $expected = [
+            'addressLine1'     => '900 North 3rd St SE',
+            'addressLine2'     => null,
+            'zip'              => '70802',
+            'zip4'             => null,
+            'stateName'        => 'Louisiana',
+            'state'            => 'LA',
+            'city'             => 'Baton Rouge',
+            'streetNumber'     => '900',
+            'streetName'       => 'North 3rd',
+            'routeType'        => 'St',
+            'streetDirection'  => 'SE',
+            'country'          => 'USA',
+            'formattedAddress' => '900 North 3rd St SE, Baton Rouge, LA 70802',
+            'error'            => false,
+            'errorMessage'     => null,
+        ];
+        
+        foreach ($expected as $key => $value) {
+            $this->assertSame($value, $parsedAddress[$key]);
+        }
+    }
+
     public function testPOBox(): void
     {
         $parser = new \AddressStringParser\Parser();
