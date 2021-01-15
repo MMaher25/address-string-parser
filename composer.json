@@ -2,6 +2,7 @@
     "name": "mmaher/address-string-parser",
     "description": "A parser for street address strings",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Mark Maher",
