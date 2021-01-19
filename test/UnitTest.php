@@ -337,4 +337,31 @@ class UnitTest extends TestCase
             $this->assertSame($value, $parsedAddress[$key]);
         }
     }
+
+    public function testUSStringDC(): void
+    {
+        $parser = new \AddressStringParser\Parser();
+        $parsedAddress = $parser->parseAddress('1600 Pennsylvania Ave. NW Ofc. 6-A Washington, DC 20500-0004');
+        $expected = [
+            'addressLine1'     => '1600 Pennsylvania Ave NW',
+            'addressLine2'     => 'Ofc. 6-A',
+            'zip'              => '20500',
+            'zip4'             => '0004',
+            'stateName'        => 'District Of Columbia',
+            'state'            => 'DC',
+            'city'             => 'Washington',
+            'streetNumber'     => '1600',
+            'streetName'       => 'Pennsylvania',
+            'routeType'        => 'Ave',
+            'streetDirection'  => 'NW',
+            'country'          => 'USA',
+            'formattedAddress' => '1600 Pennsylvania Ave NW, Ofc. 6-A, Washington, DC 20500-0004',
+            'error'            => false,
+            'errorMessage'     => null,
+        ];
+
+        foreach ($expected as $key => $value) {
+            $this->assertSame($value, $parsedAddress[$key]);
+        }
+    }
 }
