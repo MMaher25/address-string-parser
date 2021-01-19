@@ -219,7 +219,7 @@ class Parser
             return $parsed;
         } else if (count($addressArray) === 2) {
             // check if the secondary data is first
-            $regex = '^(' . $usLine2String . ')\b';
+            $regex = '/^(' . $usLine2String . ')\b/';
             if (preg_match($regex, $addressArray[0]) === 1) {
                 $tmpString       = $addressArray[1];
                 $addressArray[1] = $addressArray[0];
