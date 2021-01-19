@@ -657,7 +657,7 @@ class ValueStore
             "Goodland","Clermont","Copeland","Bostwick","Micanopy","Evinston","Shalimar","Freeport","Clarcona","Hernando","Maitland","Plymouth",
             "Hastings","Sarasota","Zellwood","Newberry","Astatula","Pineland","Sun City","Manasota","Longwood","Bushnell","Palm Bay","Mascotte",
             "Wildwood","Branford","Live Oak","Mc Alpin","Oak Hill","Reddick","Oakland","Bradley","Captiva","Century","Valrico","Wabasso","Seffner",
-            "Nocatee","Arcadia","Alachua","Altoona","Deltona","Madison","Pinetta","Brandon","Ochopee","Bronson","Seville","Sebring","Nichols",
+            "Nocatee","Arcadia","Alachua","Altoona","Deltona","Madison","Pinetta","Brandon","Ochopee","Bronson","Seville","Sebring","Nichols","Tamarac",
             "Jupiter","Sanibel","Waverly","Pahokee","Candler","Lecanto","Grandin","Hialeah","Panacea","Labelle","Bristol","Pierson","Palatka",
             "Tavares","Hosford","Satsuma","Melrose","Wacissa","Placida","Murdock","Bonifay","Parrish","Margate","Aripeka","Hampton","Navarre",
             "Holiday","Nokomis","Sumatra","Sharpes","Anthony","Trenton","Olustee","Malabar","Telogia","Sanford","Raiford","Chipley","Wimauma",
