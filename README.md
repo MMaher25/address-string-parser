@@ -10,7 +10,7 @@ This library can be installed via packagist, using composer:
 
 ## Usage
 
-The Address Parser can be invoked on any reasonably-well-formed street address string to return an associative array of of normalized base component parts.
+The Address Parser can be invoked on any reasonably-well-formed street address string to return an associative array of normalized base component parts.
 
     <?php
     $parser = new AddressStringParser\Parser();
