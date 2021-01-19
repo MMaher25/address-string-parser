@@ -192,9 +192,14 @@ class Parser
             $citySection = trim($addressArray[count($addressArray) - 1]);
         }
         foreach ($store->getCities($parsed['state']) as $city) {
-            $regex = '/' . $city . '$/';
-            if (preg_match($regex, $citySection) === 1) {
-                $citySection    = preg_replace($regex, '', $citySection);
+            if (preg_match('/ (City|Township)$/i', $citySection) !== 0) {
+                $cityRegex = '/[{$city}] (City|Township)?$/';
+            } else {
+                $cityRegex = '/[{$city}]$/';
+            }
+            $cityRegex = str_replace('[{$city}]', $city, $cityRegex);
+            if (preg_match($cityRegex, $citySection) === 1) {
+                $citySection    = preg_replace($cityRegex, '', $citySection);
                 $parsed['city'] = $city;
                 break;
             }

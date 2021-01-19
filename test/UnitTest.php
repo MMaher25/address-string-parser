@@ -355,7 +355,7 @@ class UnitTest extends TestCase
             'routeType'        => 'Ave',
             'streetDirection'  => 'NW',
             'country'          => 'USA',
-            'formattedAddress' => '1600 Pennsylvania Ave NW, Ofc. 6-A, Washington, DC 20500-0004',
+            'formattedAddress' => '1600 Pennsylvania Ave NW, Ofc. 6-A, Washington, DC 20500',
             'error'            => false,
             'errorMessage'     => null,
         ];
