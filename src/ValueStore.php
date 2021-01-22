@@ -173,7 +173,7 @@ class ValueStore
         'MS' => 'Mississippi',
         'MO' => 'Missouri',
         'MT' => 'Montana',
-        'NB' => 'Nebraska',
+        'NE' => 'Nebraska',
         'NV' => 'Nevada',
         'NH' => 'New Hampshire',
         'NJ' => 'New Jersey',
