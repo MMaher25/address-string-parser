@@ -35,7 +35,7 @@ class UnitTest extends TestCase
             'error'            => false,
             'errorMessage'     => null,
         ];
-        
+
         foreach ($expected as $key => $value) {
             $this->assertSame($value, $parsedAddress[$key]);
         }
@@ -62,7 +62,7 @@ class UnitTest extends TestCase
             'error'            => false,
             'errorMessage'     => null,
         ];
-        
+
         foreach ($expected as $key => $value) {
             $this->assertSame($value, $parsedAddress[$key]);
         }
@@ -89,7 +89,7 @@ class UnitTest extends TestCase
             'error'            => false,
             'errorMessage'     => null,
         ];
-        
+
         foreach ($expected as $key => $value) {
             $this->assertSame($value, $parsedAddress[$key]);
         }
@@ -116,7 +116,7 @@ class UnitTest extends TestCase
             'error'            => false,
             'errorMessage'     => null,
         ];
-        
+
         foreach ($expected as $key => $value) {
             $this->assertSame($value, $parsedAddress[$key]);
         }
@@ -143,7 +143,7 @@ class UnitTest extends TestCase
             'error'            => false,
             'errorMessage'     => null,
         ];
-        
+
         foreach ($expected as $key => $value) {
             $this->assertSame($value, $parsedAddress[$key]);
         }
@@ -364,4 +364,26 @@ class UnitTest extends TestCase
             $this->assertSame($value, $parsedAddress[$key]);
         }
     }
+
+    // public function testOne(): void
+    // {
+    //     $parser = new \AddressStringParser\Parser();
+    //     $parsedAddress = $parser->parseAddress("4094 HIGHWAY 107 S ,PLAUCHEVILLE, LA 71362");
+    //     $this->assertNotTrue($parsedAddress['error']);
+    // }
+
+    // public function testUSAddressFile(): void
+    // {
+    //     $addresses = explode(PHP_EOL, file_get_contents(__DIR__ . '/addresses.log'));
+    //     $parser    = new \AddressStringParser\Parser();
+    //     foreach ($addresses as $address) {
+    //         if (strlen($address)) {
+    //             $parsedAddress = $parser->parseAddress($address);
+    //             if ($parsedAddress['error']) {
+    //                 echo $address;
+    //             }
+    //             $this->assertNotTrue($parsedAddress['error']);
+    //         }
+    //     }
+    // }
 }
