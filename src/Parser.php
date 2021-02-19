@@ -64,8 +64,8 @@ class Parser
         $addressArray = preg_split('/,|\t|\n|;/', $address);
 
         $streetSection             = "";
-        $usStreetDirectionalString = implode('|', array_keys($store->getDirections()));
-        $usLine2String             = implode('|', array_keys($store->getPrefixes()));
+        $usStreetDirectionalString = implode('|', array_merge(array_keys($store->getDirections()), array_values($store->getDirections())));
+        $usLine2String             = implode('|', array_merge(array_keys($store->getPrefixes()), array_values($store->getPrefixes())));
         $streetRegex               = '/.*\b(?:' . implode('|', array_keys($store->getRouteTypes())) . ')\b\.?' . '(\s+(?:' . $usStreetDirectionalString . ')\b)?/i';
         if (count($addressArray) === 1 || (count($addressArray) === 2 && trim($addressArray[1]) === '')) {
             // Ends in a comma. Might be an accident
@@ -251,7 +251,7 @@ class Parser
             //Assume street address comes first and the rest is secondary address
             $poBoxRegex       = '/(P\\.?O\\.?|POST\\s+OFFICE)\\s+(BOX|DRAWER)\\s\\w+/i';
             $aveLetterRegex   = '/.*\b(ave.?|avenue)\.\*\b[a-zA-Z]\b/i';
-            $routeNumberRegex = '/.*\b(?:' . implode('|', array_keys($store->getRouteTypes())) . ')\b\.?\s+[0-9a-zA-Z]+(\s+(?:' . $usStreetDirectionalString . ')\b)?/i';
+            $routeNumberRegex = '/.*\b(?:' . implode('|', array_keys($store->getRouteTypes())) . ')\b\.?\s+[0-9a-zA-Z]+(\s+(?:' . $usStreetDirectionalString . ')\b)?$/i';
             $noSuffixRegex    = '/\b\d+\s[a-zA-Z0-9_ ]+\b/';
             if (preg_match($aveLetterRegex, $streetSection, $aveMatches) === 1) {
                 // Handles "Ave L" type street names
@@ -307,14 +307,14 @@ class Parser
                 $parsed['streetNumber'] = $streetParts[0]; // Assume number is first element
 
                 // If there are only 2 street parts (number and name) then its likely missing a "real" suffix and the street name just happened to match a suffix
-                if (count($streetParts) > 2) {
+                if (count($streetParts) > 2 && !is_numeric(end($streetParts))) {
                     // Remove '.' if it follows routeType
                     $streetParts[count($streetParts) - 1] = preg_replace('/\.$/', '', $streetParts[count($streetParts) - 1]);
-                    $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower($streetParts[count($streetParts) - 1])]);
+                    $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower(array_pop($streetParts))]);
                 }
 
                 $parsed['streetName'] = $streetParts[1]; // Assume street name is everything in the middle
-                for ($i = 2; $i < count($streetParts) - 1; $i++) {
+                for ($i = 2; $i < count($streetParts); $i++) {
                     $parsed['streetName'] = $parsed['streetName'] . " " . $streetParts[$i];
                 }
                 $parsed['streetName']   = ucwords($parsed['streetName']);

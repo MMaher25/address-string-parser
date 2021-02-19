@@ -368,7 +368,7 @@ class UnitTest extends TestCase
     // public function testOne(): void
     // {
     //     $parser = new \AddressStringParser\Parser();
-    //     $parsedAddress = $parser->parseAddress("4094 HIGHWAY 107 S ,PLAUCHEVILLE, LA 71362");
+    //     $parsedAddress = $parser->parseAddress("275 Old Highway 15 South, Ellisville, MS 39437");
     //     $this->assertNotTrue($parsedAddress['error']);
     // }
 
