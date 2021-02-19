@@ -66,7 +66,7 @@ class Parser
         $streetSection             = "";
         $usStreetDirectionalString = implode('|', array_merge(array_keys($store->getDirections()), array_values($store->getDirections())));
         $usLine2String             = implode('|', array_merge(array_keys($store->getPrefixes()), array_values($store->getPrefixes())));
-        $streetRegex               = '/.*\b(?:' . implode('|', array_keys($store->getRouteTypes())) . ')\b\.?' . '(\s+(?:' . $usStreetDirectionalString . ')\b)?/i';
+        $streetRegex               = '/.*\b(?:' . implode('|', array_keys($store->getRouteTypes())) . ')\b\.?(\s\d+)?' . '(\s+(?:' . $usStreetDirectionalString . ')\b)?/i';
         if (count($addressArray) === 1 || (count($addressArray) === 2 && trim($addressArray[1]) === '')) {
             // Ends in a comma. Might be an accident
             if (count($addressArray) === 2 && trim($addressArray[1]) === '') {
@@ -92,14 +92,17 @@ class Parser
                 // Check if directional is last element
                 $dirRegex = '/.*\b(?:' . $usStreetDirectionalString . ')$/';
                 if (preg_match($dirRegex, $parsed['addressLine1']) === 1) {
-                    $parsed['streetDirection'] = strtoupper(array_pop($streetParts));
+                    $parsed['streetDirection'] = array_pop($streetParts);
+                    if (strlen($parsed['streetDirection']) < 4) {
+                        $parsed['streetDirection'] = strtoupper($parsed['streetDirection']);
+                    }
                 }
 
                 // Assume type is last and number is first   
                 $parsed['streetNumber'] = $streetParts[0]; // Assume number is first element
 
                 // If there are only 2 street parts (number and name) then its likely missing a "real" suffix and the street name just happened to match a suffix
-                if (count($streetParts) > 2) {
+                if (count($streetParts) > 2 && !is_numeric(end($streetParts))) {
                     // Remove '.' if it follows routeType
                     $streetParts[count($streetParts) - 1] = preg_replace('/\.$/', '', $streetParts[count($streetParts) - 1]);
                     $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower($streetParts[count($streetParts) - 1])]);
@@ -300,7 +303,10 @@ class Parser
                 // Check if directional is last element
                 $dirRegex = '/.*\b(?:' . $usStreetDirectionalString . ')$/i';
                 if (preg_match($dirRegex, $parsed['addressLine1']) === 1) {
-                    $parsed['streetDirection'] = strtoupper(array_pop($streetParts));
+                    $parsed['streetDirection'] = array_pop($streetParts);
+                    if (strlen($parsed['streetDirection']) < 4) {
+                        $parsed['streetDirection'] = strtoupper($parsed['streetDirection']);
+                    }
                 }
 
                 // Assume type is last and number is first   
@@ -344,7 +350,10 @@ class Parser
                 // Check if directional is last element
                 $dirRegex = '/.*\b(?:' . $usStreetDirectionalString . ')$/i';
                 if (preg_match($dirRegex, $parsed['addressLine1']) === 1) {
-                    $parsed['streetDirection'] = strtoupper(array_pop($streetParts));
+                    $parsed['streetDirection'] = array_pop($streetParts);
+                    if (strlen($parsed['streetDirection']) < 4) {
+                        $parsed['streetDirection'] = strtoupper($parsed['streetDirection']);
+                    }
                 }
 
                 // Assume type is last and number is first   
