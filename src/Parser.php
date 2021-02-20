@@ -207,13 +207,13 @@ class Parser
             $cityRegex = str_replace('[{$city}]', $city, $cityRegex);
             if (preg_match($cityRegex, $citySection) === 1) {
                 $citySection    = preg_replace($cityRegex, '', $citySection);
-                $parsed['city'] = $city;
+                $parsed['city'] = $this->makeTitleCase($city);
                 break;
             }
         }
 
         if ($parsed['city'] === null) {
-            $parsed['city'] = ucwords($citySection);
+            $parsed['city'] = $this->makeTitleCase($citySection);
             $citySection = "";
         }
 
@@ -278,11 +278,10 @@ class Parser
                 // Normalize to Ave
                 $streetParts[count($streetParts) - 2] = preg_replace('/^(ave.?|avenue)$/i', 'Ave', $streetParts[count($streetParts) - 2]);
 
-                $parsed['streetName'] = $streetParts[1]; // Assume street name is everything in the middle
+                $parsed['streetName'] = $this->makeTitleCase($streetParts[1]); // Assume street name is everything in the middle
                 for ($i = 2; $i < count($streetParts); $i++) {
-                    $parsed['streetName'] = $parsed['streetName'] + " " + $streetParts[$i];
+                    $parsed['streetName'] = $parsed['streetName'] + " " + $this->makeTitleCase($streetParts[$i]);
                 }
-                $parsed['streetName']   = ucwords($parsed['streetName']);
                 $parsed['addressLine1'] = implode(' ', [$parsed['streetNumber'], $parsed['streetName']]);
             } else if (preg_match($routeNumberRegex, $streetSection, $routeMatches) === 1) {
                 // Handles "Hwy 104 E" type street names
@@ -319,11 +318,10 @@ class Parser
                     $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower(array_pop($streetParts))]);
                 }
 
-                $parsed['streetName'] = $streetParts[1]; // Assume street name is everything in the middle
+                $parsed['streetName'] = $this->makeTitleCase($streetParts[1]); // Assume street name is everything in the middle
                 for ($i = 2; $i < count($streetParts); $i++) {
-                    $parsed['streetName'] = $parsed['streetName'] . " " . $streetParts[$i];
+                    $parsed['streetName'] = $parsed['streetName'] . " " . $this->makeTitleCase($streetParts[$i]);
                 }
-                $parsed['streetName']   = ucwords($parsed['streetName']);
                 $parsed['addressLine1'] = implode(' ', [$parsed['streetNumber'], $parsed['streetName']]);
 
                 if ($parsed['routeType'] !== null) {
@@ -366,11 +364,10 @@ class Parser
                     $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower($streetParts[count($streetParts) - 1])]);
                 }
 
-                $parsed['streetName'] = $streetParts[1]; // Assume street name is everything in the middle
+                $parsed['streetName'] = $this->makeTitleCase($streetParts[1]); // Assume street name is everything in the middle
                 for ($i = 2; $i < count($streetParts) - 1; $i++) {
-                    $parsed['streetName'] = $parsed['streetName'] . " " . $streetParts[$i];
+                    $parsed['streetName'] = $parsed['streetName'] . " " . $this->makeTitleCase($streetParts[$i]);
                 }
-                $parsed['streetName']   = ucwords($parsed['streetName']);
                 $parsed['addressLine1'] = implode(' ', [$parsed['streetNumber'], $parsed['streetName']]);
 
                 if ($parsed['routeType'] !== null) {
@@ -418,5 +415,19 @@ class Parser
         }
 
         return $parsed;
+    }
+
+    /**
+     * Makes a string into Title Case if it's not already
+     *
+     * @param  string $string
+     * @return string
+     */
+    public function makeTitleCase($string)
+    {
+        if (preg_match('/[a-z]/', $string) === 1 && preg_match('/[A-Z]/', $string) === 1) {
+            return $string;
+        }
+        return ucwords(strtolower($string));
     }
 }
