@@ -133,13 +133,13 @@ class UnitTest extends TestCase
             'zip4'             => null,
             'stateName'        => 'Arizona',
             'state'            => 'AZ',
-            'city'             => 'TUCSON',
+            'city'             => 'Tucson',
             'streetNumber'     => null,
             'streetName'       => null,
             'routeType'        => null,
             'streetDirection'  => null,
             'country'          => 'USA',
-            'formattedAddress' => 'PO BOX 65502, TUCSON, AZ 85728',
+            'formattedAddress' => 'PO BOX 65502, Tucson, AZ 85728',
             'error'            => false,
             'errorMessage'     => null,
         ];
@@ -365,25 +365,4 @@ class UnitTest extends TestCase
         }
     }
 
-    // public function testOne(): void
-    // {
-    //     $parser = new \AddressStringParser\Parser();
-    //     $parsedAddress = $parser->parseAddress("275 Old Highway 15 South");
-    //     $this->assertNotTrue($parsedAddress['error']);
-    // }
-
-    // public function testUSAddressFile(): void
-    // {
-    //     $addresses = explode('|', file_get_contents(__DIR__ . '/addresses.log'));
-    //     $parser    = new \AddressStringParser\Parser();
-    //     foreach ($addresses as $address) {
-    //         if (strlen($address)) {
-    //             $parsedAddress = $parser->parseAddress($address);
-    //             if ($parsedAddress['error']) {
-    //                 echo $address;
-    //             }
-    //             $this->assertNotTrue($parsedAddress['error']);
-    //         }
-    //     }
-    // }
 }

@@ -123,22 +123,22 @@ class ValueStore
      * @var array $directions
      * */
     protected static $directions = [
+        'WSW' => 'West-Southwest',
+        'ESE' => 'East-Southeast',
+        'SSW' => 'South-Southwest',
+        'SSE' => 'South-Southeast',
+        'WNW' => 'West-Northwest',
+        'ENE' => 'East-Northeast',
+        'NNW' => 'North-Northwest',
+        'NNE' => 'North-Northeast',
+        'SW'  => 'Southwest',
+        'SE'  => 'Southeast',
+        'NW'  => 'Northwest',
+        'NE'  => 'Northeast',
         'N'   => 'North',
         'S'   => 'South',
         'E'   => 'East',
         'W'   => 'West',
-        'NE'  => 'Northeast',
-        'NW'  => 'Northwest',
-        'SE'  => 'Southeast',
-        'SW'  => 'Southwest',
-        'NNE' => 'North-Northeast',
-        'NNW' => 'North-Northwest',
-        'ENE' => 'East-Northeast',
-        'WNW' => 'West-Northwest',
-        'SSE' => 'South-Southeast',
-        'SSW' => 'South-Southwest',
-        'ESE' => 'East-Southeast',
-        'WSW' => 'West-Southwest',
     ];
 
     /** 
@@ -545,7 +545,7 @@ class ValueStore
         ],
         "CO" => [
             "Mesa Verde National Park","Green Mountain Falls","Hot Sulphur Springs","Steamboat Springs","Red Feather Lakes","Colorado Springs",
-            "Snowmass Village","Eldorado Springs","Glenwood Springs","Log Lane Village","Battlement Mesa","Manitou Springs","Grand Junction",
+            "Snowmass Village","Eldorado Springs","Glenwood Springs","Log Lane Village","Battlement Mesa","Manitou Springs","Highlands Ranch","Grand Junction",
             "Pagosa Springs","Cheyenne Wells","Poncha Springs","Sheridan Lake","Olney Springs","Idaho Springs","Colorado City","Commerce City",
             "Cripple Creek","Woodland Park","Buffalo Creek","Pleasant View","Yellow Jacket","Crested Butte","Silver Plume","Central City",
             "Indian Hills","Fort Collins","Silverthorne","Fort Garland","Usaf Academy","Breckenridge","Rollinsville","Buena Vista","Monte Vista",
@@ -656,7 +656,7 @@ class ValueStore
             "Milligan","Suwannee","Old Town","Homeland","Kathleen","Fountain","Ellenton","Roseland","Earleton","Nalcrest","Loughman","Mulberry",
             "Goodland","Clermont","Copeland","Bostwick","Micanopy","Evinston","Shalimar","Freeport","Clarcona","Hernando","Maitland","Plymouth",
             "Hastings","Sarasota","Zellwood","Newberry","Astatula","Pineland","Sun City","Manasota","Longwood","Bushnell","Palm Bay","Mascotte",
-            "Wildwood","Branford","Live Oak","Mc Alpin","Oak Hill","Reddick","Oakland","Bradley","Captiva","Century","Valrico","Wabasso","Seffner",
+            "Wildwood","Branford","Live Oak","Mc Alpin","Oak Hill","Reddick","Oakland","Bradley","Captiva","Century","Valrico","Wabasso","Seffner","Miramar",
             "Nocatee","Arcadia","Alachua","Altoona","Deltona","Madison","Pinetta","Brandon","Ochopee","Bronson","Seville","Sebring","Nichols","Tamarac",
             "Jupiter","Sanibel","Waverly","Pahokee","Candler","Lecanto","Grandin","Hialeah","Panacea","Labelle","Bristol","Pierson","Palatka",
             "Tavares","Hosford","Satsuma","Melrose","Wacissa","Placida","Murdock","Bonifay","Parrish","Margate","Aripeka","Hampton","Navarre",
@@ -664,7 +664,7 @@ class ValueStore
             "Coleman","Oldsmar","Orlando","Webster","Paisley","Bunnell","Dunedin","Cypress","O Brien","Alturas","Brooker","Molino","Cortez",
             "Holder","Lorida","Argyle","Lamont","Welaka","Sneads","Bartow","Elkton","Lowell","Destin","Dundee","Wausau","Graham","Inglis",
             "Bagdad","Yalaha","Sydney","Malone","Milton","Stuart","Osprey","Laurel","Trilby","Venice","Lawtey","Paxton","Ruskin","Hudson",
-            "Geneva","Estero","Vernon","Elfers","Odessa","Oviedo","Bascom","Starke","Eustis","Lithia","Osteen","Durant","Deland","Quincy",
+            "Geneva","Estero","Vernon","Elfers","Odessa","Oviedo","Bascom","Starke","Eustis","Lithia","Osteen","Durant","Deland","Quincy","Cooper",
             "Midway","Oxford","Naples","Havana","Apopka","Alford","Gretna","Debary","Archer","Jasper","Salem","Perry","Cocoa","Grant","Dania",
             "Oneco","Altha","Citra","Ozona","Largo","Sparr","Ocala","Felda","Venus","Astor","Dover","Miami","Mango","Waldo","Lloyd","Gotha",
             "Tampa","Yulee","Baker","Ocoee","Holt","Mims","Lutz","Alva","Mayo","Balm","Noma","Bell","Lulu","Ebro","Lee","Jay","Day","Ona"
@@ -1752,7 +1752,7 @@ class ValueStore
             "Wickatunk","Allentown","Westfield","Blackwood","Millville","Roosevelt","Allenwood","Manasquan","Paulsboro","Allendale","Somerdale",
             "Montville","Stockholm","Oak Ridge","Rosenhayn","Thorofare","Lafayette","Westville","Moonachie","Riverdale","Hopatcong","Mine Hill",
             "Carlstadt","Budd Lake","Brookside","Stratford","Lakehurst","Greendell","Lyndhurst","Ledgewood","Pemberton","Clementon","Middlesex",
-            "Waretown","Randolph","Hibernia","Flanders","Denville","Sea Girt","Stanhope","Gillette","Garfield","Oakhurst","Navesink","Fort Lee",
+            "Waretown","Randolph","Hibernia","Flanders","Denville","Sea Girt","Stanhope","Gillette","Garfield","Oakhurst","Navesink","Fort Lee","Galloway",
             "Marlboro","Fairview","Lincroft","Leonardo","Stirling","Whippany","Barnegat","Freehold","Westwood","Cranford","Adelphia","Red Bank",
             "Waldwick","Lakewood","Bayville","Milltown","Montague","Metuchen","Longport","Watchung","Helmetta","Vauxhall","Cranbury","Richland",
             "Carteret","Hopewell","Stockton","Rosemont","Secaucus","Harrison","Rockaway","Minotola","Newfield","Demarest","Deptford","Hillside",
@@ -1936,7 +1936,7 @@ class ValueStore
             "Glenmont","Wanakena","Glenford","Winthrop","Sterling","Lowville","Edmeston","Penn Yan","Hinsdale","Hartwick","Bradford",
             "Camillus","Freehold","Roseboom","Caneadea","Red Hook","Coeymans","Elbridge","Westford","Marathon","Freeport","Hartford",
             "Stamford","Arkville","Fredonia","Waterloo","Delanson","Oak Hill","Islandia","Lakemont","Unadilla","Millport","Carlisle",
-            "Marietta","Brewster","Melville","Connelly","Garrison","Sheridan","Purchase","Moriches","Wingdale","Lawrence","Westport",
+            "Marietta","Brewster","Melville","Connelly","Garrison","Sheridan","Purchase","Moriches","Wingdale","Lawrence","Westport","Setauket",
             "Waccabuc","Lynbrook","Malverne","Flushing","Syracuse","Ossining","Holbrook","Crompond","Ashville","Endicott","Hewlett",
             "Macedon","Fayette","Alplaus","Romulus","Willard","Corinth","Wayland","Addison","Arkport","Atlanta","Rexford","Cameron",
             "Russell","Pyrites","Potsdam","Norwood","Corning","Norfolk","Massena","Hornell","Lindley","Hammond","Dresden","Edwards",
@@ -2085,7 +2085,7 @@ class ValueStore
             "West Mansfield","West Millgrove","Yellow Springs","Milford Center","Mount Sterling","West Jefferson","East Liverpool","East Palestine",
             "Columbus Grove","Powhatan Point","New Marshfield","Mingo Junction","East Rochester","New Middletown","Pleasant Plain","West Lafayette",
             "Mount Pleasant","New Washington","North Robinson","Cuyahoga Falls","Sinking Spring","North Royalton","College Corner","Little Hocking",
-            "Fredericksburg","East Fultonham","Tuppers Plains","Chandlersville","Mcconnelsville","Jeffersonville","Kelleys Island","Berlin Heights",
+            "Fredericksburg","East Fultonham","Tuppers Plains","Chandlersville","Mcconnelsville","Jeffersonville","Kelleys Island","Berlin Heights","Roaming Shores",
             "East Claridon","Fort Jennings","Kettlersville","Pleasant City","New Knoxville","Green Springs","Mechanicstown","New Waterford",
             "Sherrodsville","Garrettsville","Mechanicsburg","Williamsfield","Union Furnace","Fredericktown","South Webster","Mount Liberty",
             "New Lexington","Junction City","Mount Victory","Newcomerstown","Mineral Ridge","Chagrin Falls","North Olmsted","Camp Dennison",
@@ -3041,7 +3041,9 @@ class ValueStore
      */
     public function getDirections()
     {
-        return self::$directions;
+        $directions = array_merge(array_values(self::$directions), array_keys(self::$directions));
+        usort($directions, function ($a, $b) {return strlen($b) - strlen($a);});
+        return $directions;
     }
 
     /**
@@ -3081,7 +3083,9 @@ class ValueStore
      */
     public function getPrefixes()
     {
-        return self::$prefixes;
+        $prefixes = array_merge(array_values(self::$prefixes), array_keys(self::$prefixes));
+        usort($prefixes, function ($a, $b) {return strlen($b) - strlen($a);});
+        return array_unique($prefixes);
     }
 
     /**

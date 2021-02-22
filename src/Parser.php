@@ -64,9 +64,9 @@ class Parser
         $addressArray = preg_split('/,|\t|\n|;/', $address);
 
         $streetSection             = "";
-        $usStreetDirectionalString = implode('|', array_merge(array_keys($store->getDirections()), array_values($store->getDirections())));
-        $usLine2String             = implode('|', array_merge(array_keys($store->getPrefixes()), array_values($store->getPrefixes())));
-        $streetRegex               = '/.*\b(?:' . implode('|', array_keys($store->getRouteTypes())) . ')\b\.?(\s\d+)?' . '(\s+(?:' . $usStreetDirectionalString . ')\b)?/i';
+        $usStreetDirectionalString = implode('|', $store->getDirections());
+        $usLine2String             = implode('|', $store->getPrefixes());
+        $streetRegex               = '/.*\b(?:' . implode('|', array_keys($store->getRouteTypes())) . ')\b\.?(\s\d+)?((\.|\-)\d+)?([a-zA-Z]{1,2})?' . '(\s+(?:' . $usStreetDirectionalString . ')\b)?(\.)?/i';
         if (count($addressArray) === 1 || (count($addressArray) === 2 && trim($addressArray[1]) === '')) {
             // Ends in a comma. Might be an accident
             if (count($addressArray) === 2 && trim($addressArray[1]) === '') {
@@ -102,7 +102,7 @@ class Parser
                 $parsed['streetNumber'] = $streetParts[0]; // Assume number is first element
 
                 // If there are only 2 street parts (number and name) then its likely missing a "real" suffix and the street name just happened to match a suffix
-                if (count($streetParts) > 2 && !is_numeric(end($streetParts))) {
+                if (count($streetParts) > 2 && preg_match('/\d+((\.|\-)\d+)?/', end($streetParts)) === 0 && array_key_exists(strtolower(end($streetParts)), $store->getRouteTypes())) {
                     // Remove '.' if it follows routeType
                     $streetParts[count($streetParts) - 1] = preg_replace('/\.$/', '', $streetParts[count($streetParts) - 1]);
                     $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower($streetParts[count($streetParts) - 1])]);
@@ -200,7 +200,7 @@ class Parser
         }
         foreach ($store->getCities($parsed['state']) as $city) {
             if (preg_match('/ (City|Township)$/i', $citySection) !== 0) {
-                $cityRegex = '/[{$city}]( City| Township)?$/';
+                $cityRegex = '/[{$city}]( City| Township| Twp)?$/';
             } else {
                 $cityRegex = '/[{$city}]$/';
             }
@@ -213,6 +213,7 @@ class Parser
         }
 
         if ($parsed['city'] === null) {
+            // TODO: Parse the address from the front and assume whatever is left is the city name
             $parsed['city'] = $this->makeTitleCase($citySection);
             $citySection = "";
         }
@@ -312,7 +313,7 @@ class Parser
                 $parsed['streetNumber'] = $streetParts[0]; // Assume number is first element
 
                 // If there are only 2 street parts (number and name) then its likely missing a "real" suffix and the street name just happened to match a suffix
-                if (count($streetParts) > 2 && !is_numeric(end($streetParts))) {
+                if (count($streetParts) > 2 && preg_match('/\d+((\.|\-)\d+)?/', end($streetParts)) === 0 && array_key_exists(strtolower(end($streetParts)), $store->getRouteTypes())) {
                     // Remove '.' if it follows routeType
                     $streetParts[count($streetParts) - 1] = preg_replace('/\.$/', '', $streetParts[count($streetParts) - 1]);
                     $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower(array_pop($streetParts))]);
@@ -331,7 +332,7 @@ class Parser
                     $parsed['addressLine1'] = $parsed['addressLine1'] . ' ' . $parsed['streetDirection'];
                 }
             } else if (preg_match($streetRegex, $streetSection, $streetMatches) === 1) {
-                $parsed['addressLine1'] = $streetMatches[0];
+                $parsed['addressLine1'] = trim(preg_replace("/\.\s?($usStreetDirectionalString)?/", strlen("$1") > 1 ? " $1" : '', $streetMatches[0]));
                 $streetSection          = preg_replace($streetRegex, '', $streetSection);
                 if ($streetSection && strlen($streetSection)) {
                     // Check if line2 data was already parsed
@@ -358,14 +359,14 @@ class Parser
                 $parsed['streetNumber'] = $streetParts[0]; // Assume number is first element
 
                 // If there are only 2 street parts (number and name) then its likely missing a "real" suffix and the street name just happened to match a suffix
-                if (count($streetParts) > 2) {
+                if (count($streetParts) > 2 && preg_match('/\d+((\.|\-)\d+)?/', end($streetParts)) === 0 && array_key_exists(strtolower(end($streetParts)), $store->getRouteTypes())) {
                     // Remove '.' if it follows routeType
                     $streetParts[count($streetParts) - 1] = preg_replace('/\.$/', '', $streetParts[count($streetParts) - 1]);
-                    $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower($streetParts[count($streetParts) - 1])]);
+                    $parsed['routeType'] = ucwords($store->getRouteTypes()[strtolower(array_pop($streetParts))]);
                 }
 
                 $parsed['streetName'] = $this->makeTitleCase($streetParts[1]); // Assume street name is everything in the middle
-                for ($i = 2; $i < count($streetParts) - 1; $i++) {
+                for ($i = 2; $i < count($streetParts); $i++) {
                     $parsed['streetName'] = $parsed['streetName'] . " " . $this->makeTitleCase($streetParts[$i]);
                 }
                 $parsed['addressLine1'] = implode(' ', [$parsed['streetNumber'], $parsed['streetName']]);
