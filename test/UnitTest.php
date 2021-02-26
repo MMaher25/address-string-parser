@@ -25,7 +25,7 @@ class UnitTest extends TestCase
         $parsedAddress = $parser->parseAddress($address);
 
         foreach ($expected as $key => $value) {
-            self::assertSame($value, $parsedAddress[$key]);
+            self::assertSame($value, $parsedAddress[$key], $key);
         }
 
     }
