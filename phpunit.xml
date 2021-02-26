@@ -5,7 +5,7 @@
             <directory suffix=".php">./src</directory>
         </include>
         <report>
-            <text outputFile="" showUncoveredFiles="true"/>
+            <html outputDirectory="coverage" lowUpperBound="50" highLowerBound="90"/>
         </report>
     </coverage>
     <testsuites>
@@ -13,10 +13,5 @@
             <directory>test</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">./src</directory>
-        </whitelist>
-    </filter>
     <logging/>
 </phpunit>
