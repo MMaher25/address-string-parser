@@ -296,4 +296,92 @@ class UnitTest extends TestCase
         ];
     }
 
+    /**
+     * @dataProvider addressesErrorCasesProvider
+     * @param string $address
+     * @param array $expected
+     */
+    public function testParseAddressErrorCases(string $address, array $expected): void
+    {
+        self::markTestIncomplete('This tests needs examples of failing addresses in each case the function returns an error message');
+
+        $parser = new \AddressStringParser\Parser();
+        $parsedAddress = $parser->parseAddress($address);
+
+        self::assertSame($expected, $parsedAddress);
+        foreach ($expected as $key => $value) {
+            self::assertSame($value, $parsedAddress[$key], $key);
+        }
+
+    }
+
+    public function addressesErrorCasesProvider(): array
+    {
+
+        return [
+            'empty address' => [
+                'address'  => '',
+                'expected' => [
+                    'error'        => true,
+                    'errorMessage' => 'Must supply non-empty string',
+                ],
+            ],
+            'Could not determine state' => [
+                'address'  => '###get_example###',
+                'expected' => [
+                    'error'        => true,
+                    'errorMessage' => 'Could not determine state',
+                ],
+            ],
+            'Invalid address case #1' => [
+                'address'  => '###get_example###',
+                'expected' => [
+                    'error'        => true,
+                    'errorMessage' => 'Can not parse address. Invalid address.',
+                ],
+            ],
+            'Invalid address case #2' => [
+                'address'  => '###get_example###',
+                'expected' => [
+                    'error'        => true,
+                    'errorMessage' => 'Can not parse address. Invalid address.',
+                ],
+            ],
+            'Too many address lines case #1' => [
+                'address'  => '###get_example###',
+                'expected' => [
+                    'error'        => true,
+                    'errorMessage' => 'Can not parse address. Too many address lines.',
+                ],
+            ],
+            'Too many address lines case #2' => [
+                'address'  => '###get_example###',
+                'expected' => [
+                    'error'        => true,
+                    'errorMessage' => 'Can not parse address. Too many address lines.',
+                ],
+            ],
+            'Too many address lines case #3' => [
+                'address'  => '###get_example###',
+                'expected' => [
+                    'error'        => true,
+                    'errorMessage' => 'Can not parse address. Too many address lines.',
+                ],
+            ],
+            'Too many address lines case #4' => [
+                'address'  => '###get_example###',
+                'expected' => [
+                    'error'        => true,
+                    'errorMessage' => 'Can not parse address. Too many address lines.',
+                ],
+            ],
+            'Too many address lines case #5' => [
+                'address'  => '###get_example###',
+                'expected' => [
+                    'error'        => true,
+                    'errorMessage' => 'Can not parse address. Too many address lines.',
+                ],
+            ],
+        ];
+    }
 }
