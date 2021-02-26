@@ -201,7 +201,7 @@ class ValueStore
     ];
 
     /** 
-     * A list of prefixes and appreviations
+     * A list of prefixes and abbreviations
      * @var array $prefixes
      * */
     protected static $prefixes = [
