@@ -9,9 +9,9 @@ class UnitTest extends TestCase
     public function testConstructor()
     {
         $parser = new \AddressStringParser\Parser();
-        $this->assertInstanceOf('AddressStringParser\Parser', $parser);
+        self::assertInstanceOf('AddressStringParser\Parser', $parser);
         $store  = new \AddressStringParser\ValueStore();
-        $this->assertInstanceOf('AddressStringParser\ValueStore', $store);
+        self::assertInstanceOf('AddressStringParser\ValueStore', $store);
     }
 
     /**
@@ -25,7 +25,7 @@ class UnitTest extends TestCase
         $parsedAddress = $parser->parseAddress($address);
 
         foreach ($expected as $key => $value) {
-            $this->assertSame($value, $parsedAddress[$key]);
+            self::assertSame($value, $parsedAddress[$key]);
         }
 
     }
