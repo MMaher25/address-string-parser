@@ -283,7 +283,7 @@ class Parser
 
                 $parsed['streetName'] = $this->makeTitleCase($streetParts[1]); // Assume street name is everything in the middle
                 for ($i = 2; $i < count($streetParts); $i++) {
-                    $parsed['streetName'] = $parsed['streetName'] + " " + $this->makeTitleCase($streetParts[$i]);
+                    $parsed['streetName'] = $parsed['streetName'] . " " . $this->makeTitleCase($streetParts[$i]);
                 }
                 $parsed['addressLine1'] = implode(' ', [$parsed['streetNumber'], $parsed['streetName']]);
             } else if (preg_match($routeNumberRegex, $streetSection, $routeMatches) === 1) {
