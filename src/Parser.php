@@ -167,7 +167,7 @@ class Parser
         }
 
         // Check for just a state code
-        if (strlen($stateSection) == 2 && array_key_exists(strtoupper($stateSection), $store->getStates())) {
+        if (strlen($stateSection) === 2 && array_key_exists(strtoupper($stateSection), $store->getStates())) {
             $parsed['state']         = strtoupper($stateSection);
             $parsed['stateName']     = ucwords($store->getStates()[strtoupper($stateSection)]);
             $stateSection            = trim(str_replace($parsed['state'], '', $stateSection));
@@ -183,7 +183,7 @@ class Parser
                 }
             }
         }
-        if (empty($parsed['state']) || strlen($parsed['state']) != 2) {
+        if (empty($parsed['state']) || strlen($parsed['state']) !== 2) {
             $parsed['error']        = true;
             $parsed['errorMessage'] = 'Could not determine state';
             return $parsed;
