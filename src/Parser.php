@@ -190,7 +190,6 @@ class Parser
         }
 
         // Parse and remove city name
-        $citySection = "";
         if (strlen($stateSection) > 0) {
             $addressArray[count($addressArray) - 1] = $stateSection;
             $citySection = trim($addressArray[count($addressArray) - 1]);
