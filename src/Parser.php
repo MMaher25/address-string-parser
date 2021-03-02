@@ -83,9 +83,9 @@ class Parser
                         $parsed['error']        = true;
                         $parsed['errorMessage'] = 'Can not parse address. Too many address lines. ';
                         return $parsed;
-                    } else {
-                        $parsed['addressLine2'] = ucwords(trim($streetSection));
                     }
+
+                    $parsed['addressLine2'] = ucwords(trim($streetSection));
                 }
                 $streetParts = explode(' ', $parsed['addressLine1']);
 
@@ -98,7 +98,7 @@ class Parser
                     }
                 }
 
-                // Assume type is last and number is first   
+                // Assume type is last and number is first
                 $parsed['streetNumber'] = $streetParts[0]; // Assume number is first element
 
                 // If there are only 2 street parts (number and name) then its likely missing a "real" suffix and the street name just happened to match a suffix
@@ -167,7 +167,7 @@ class Parser
         }
 
         // Check for just a state code
-        if (strlen($stateSection) == 2 && array_key_exists(strtoupper($stateSection), $store->getStates())) {
+        if (strlen($stateSection) === 2 && array_key_exists(strtoupper($stateSection), $store->getStates())) {
             $parsed['state']         = strtoupper($stateSection);
             $parsed['stateName']     = ucwords($store->getStates()[strtoupper($stateSection)]);
             $stateSection            = trim(str_replace($parsed['state'], '', $stateSection));
@@ -183,14 +183,13 @@ class Parser
                 }
             }
         }
-        if (empty($parsed['state']) || strlen($parsed['state']) != 2) {
+        if (empty($parsed['state']) || strlen($parsed['state']) !== 2) {
             $parsed['error']        = true;
             $parsed['errorMessage'] = 'Could not determine state';
             return $parsed;
         }
 
         // Parse and remove city name
-        $citySection = "";
         if (strlen($stateSection) > 0) {
             $addressArray[count($addressArray) - 1] = $stateSection;
             $citySection = trim($addressArray[count($addressArray) - 1]);
@@ -230,7 +229,9 @@ class Parser
             $parsed['error']        = true;
             $parsed['errorMessage'] = 'Can not parse address. Too many address lines.';
             return $parsed;
-        } else if (count($addressArray) === 2) {
+        }
+
+        if (count($addressArray) === 2) {
             // check if the secondary data is first
             $regex = '/^(' . $usLine2String . ')\b/';
             if (preg_match($regex, $addressArray[0]) === 1) {
@@ -267,13 +268,13 @@ class Parser
                         $parsed['error']        = true;
                         $parsed['errorMessage'] = 'Can not parse address. Too many address lines. ';
                         return $parsed;
-                    } else {
-                        $parsed['addressLine2'] = ucwords(trim($streetSection));
                     }
+
+                    $parsed['addressLine2'] = ucwords(trim($streetSection));
                 }
 
                 $streetParts = explode(' ', $parsed['addressLine1']);
-                // Assume type is last and number is first   
+                // Assume type is last and number is first
                 $parsed['streetNumber'] = $$streetParts[0]; // Assume number is first element
 
                 // Normalize to Ave
@@ -281,7 +282,7 @@ class Parser
 
                 $parsed['streetName'] = $this->makeTitleCase($streetParts[1]); // Assume street name is everything in the middle
                 for ($i = 2; $i < count($streetParts); $i++) {
-                    $parsed['streetName'] = $parsed['streetName'] + " " + $this->makeTitleCase($streetParts[$i]);
+                    $parsed['streetName'] = $parsed['streetName'] . " " . $this->makeTitleCase($streetParts[$i]);
                 }
                 $parsed['addressLine1'] = implode(' ', [$parsed['streetNumber'], $parsed['streetName']]);
             } else if (preg_match($routeNumberRegex, $streetSection, $routeMatches) === 1) {
@@ -294,9 +295,9 @@ class Parser
                         $parsed['error']        = true;
                         $parsed['errorMessage'] = 'Can not parse address. Too many address lines. ';
                         return $parsed;
-                    } else {
-                        $parsed['addressLine2'] = ucwords(trim($streetSection));
                     }
+
+                    $parsed['addressLine2'] = ucwords(trim($streetSection));
                 }
                 $streetParts = explode(' ', $parsed['addressLine1']);
 
@@ -309,7 +310,7 @@ class Parser
                     }
                 }
 
-                // Assume type is last and number is first   
+                // Assume type is last and number is first
                 $parsed['streetNumber'] = $streetParts[0]; // Assume number is first element
 
                 // If there are only 2 street parts (number and name) then its likely missing a "real" suffix and the street name just happened to match a suffix
@@ -340,9 +341,9 @@ class Parser
                         $parsed['error']        = true;
                         $parsed['errorMessage'] = 'Can not parse address. Too many address lines. ';
                         return $parsed;
-                    } else {
-                        $parsed['addressLine2'] = ucwords(trim($streetSection));
                     }
+
+                    $parsed['addressLine2'] = ucwords(trim($streetSection));
                 }
                 $streetParts = explode(' ', $parsed['addressLine1']);
 
@@ -355,7 +356,7 @@ class Parser
                     }
                 }
 
-                // Assume type is last and number is first   
+                // Assume type is last and number is first
                 $parsed['streetNumber'] = $streetParts[0]; // Assume number is first element
 
                 // If there are only 2 street parts (number and name) then its likely missing a "real" suffix and the street name just happened to match a suffix
@@ -392,7 +393,7 @@ class Parser
                 $streetSection = trim(preg_replace($noSuffixRegex, '', $streetSection));
                 $streetParts   = explode(' ', $parsed['addressLine1']);
 
-                // Assume type is last and number is first   
+                // Assume type is last and number is first
                 $parsed['streetNumber'] = array_shift($streetParts); // Assume number is first element
                 $parsed['streetName']   = implode(' ', $streetParts); // Assume street name is everything else
             } else {
