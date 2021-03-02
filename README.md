@@ -1,3 +1,5 @@
+[![PHP Composer Actions Status](https://github.com/MMaher25/address-string-parser/workflows/php/badge.svg)](https://github.com/MMaher25/address-string-parser/actions)
+
 # address-string-parser
 
 A PHP library for parsing US address strings into their component parts.
