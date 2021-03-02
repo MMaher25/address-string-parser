@@ -1,4 +1,4 @@
-[![PHP Composer Actions Status](https://github.com/MMaher25/address-string-parser/workflows/php/badge.svg)](https://github.com/MMaher25/address-string-parser/actions)
+[![PHP Composer Actions Status](https://github.com/MMaher25/address-string-parser/workflows/PHP%20Composer/badge.svg)](https://github.com/MMaher25/address-string-parser/actions)
 
 # address-string-parser
 
