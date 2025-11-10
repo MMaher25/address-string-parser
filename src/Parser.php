@@ -5,7 +5,7 @@
  *
  * @link       https://github.com/MMaher23/address-string-parser
  * @author     Mark Maher
- * @copyright  Copyright (c) 2021
+ * @copyright  Copyright (c) 2025
  */
 
 /**
@@ -18,7 +18,7 @@ namespace AddressStringParser;
  * Address parser class
  *
  * @author     Mark Maher
- * @copyright  Copyright (c) 2021
+ * @copyright  Copyright (c) 2025
  * @version    1.0.0
  */
 class Parser
