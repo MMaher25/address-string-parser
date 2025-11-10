@@ -195,7 +195,7 @@ class Parser
             $citySection = trim($addressArray[count($addressArray) - 1]);
         } else {
             array_splice($addressArray, -1);
-            $citySection = trim($addressArray[count($addressArray) - 1]);
+            $citySection = count($addressArray) > 0 ? trim($addressArray[count($addressArray) - 1]) : '';
         }
         foreach ($store->getCities($parsed['state']) as $city) {
             if (preg_match('/ (City|Township)$/i', $citySection) !== 0) {
